@@ -1,0 +1,6 @@
+cat > k8s/app/namespace.yaml << 'EOF'
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: myapp
+EOF
