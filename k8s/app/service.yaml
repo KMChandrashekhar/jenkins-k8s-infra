@@ -1,0 +1,16 @@
+cat > k8s/app/service.yaml << 'EOF'
+apiVersion: v1
+kind: Service
+metadata:
+  name: website-service
+  namespace: myapp
+spec:
+  type: NodePort
+  selector:
+    app: website
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+      nodePort: 30080
+EOF
