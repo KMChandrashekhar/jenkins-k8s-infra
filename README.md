@@ -1,4 +1,3 @@
-cat > README.md << 'EOF'
 # Jenkins K8s Infrastructure
 
 Complete Jenkins + Kubernetes lab setup managed as code.
@@ -43,4 +42,4 @@ helm install jenkins jenkins/jenkins -n jenkins \
 # Deploy app
 kubectl apply -f k8s/app/
 ```
-EOF
+
