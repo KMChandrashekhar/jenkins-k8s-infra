@@ -1,0 +1,43 @@
+cat > jenkins/pipelines/Jenkinsfile << 'EOF'
+pipeline {
+    agent { label 'docker-agent' }
+
+    stages {
+        stage('Build Image') {
+            steps {
+                sh 'mkdir -p /home/jenkins/agent/app'
+                writeFile file: '/home/jenkins/agent/app/index.html', text: '''<!DOCTYPE html>
+<html><head><title>Jenkins App</title>
+<style>
+body{margin:0;background:#0f0f23;display:flex;justify-content:center;align-items:center;height:100vh;}
+.box{background:#1a1a3e;border:2px solid #7c7cff;border-radius:16px;padding:40px;text-align:center;color:white;}
+h1{color:#7c7cff;}.ok{color:#2ecc71;font-weight:bold;}
+</style></head>
+<body><div class="box">
+<h1>Jenkins Built This!</h1>
+<p>Agent: <span class="ok">Docker Container</span></p>
+<p>Deployed to: <span class="ok">Kubernetes</span></p>
+</div></body></html>'''
+                writeFile file: '/home/jenkins/agent/app/Dockerfile', text: '''FROM nginx:alpine
+COPY index.html /usr/share/nginx/html/index.html
+EXPOSE 80'''
+                sh 'cd /home/jenkins/agent/app && docker build -t my-website:latest .'
+            }
+        }
+
+        stage('Deploy Container') {
+            steps {
+                sh 'docker stop live-website || true'
+                sh 'docker rm live-website || true'
+                sh 'docker run -d --name live-website -p 9090:80 my-website:latest'
+                sh 'sleep 2 && curl -s http://localhost:9090 | grep -o "Jenkins" && echo "LIVE!"'
+            }
+        }
+    }
+
+    post {
+        success { echo 'SUCCESS! Build #${BUILD_NUMBER}' }
+        failure { echo 'FAILED!' }
+    }
+}
+EOF
