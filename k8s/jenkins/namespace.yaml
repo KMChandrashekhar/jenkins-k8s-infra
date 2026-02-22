@@ -1,0 +1,8 @@
+cat > k8s/jenkins/namespace.yaml << 'EOF'
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: jenkins
+  labels:
+    managed-by: helm
+EOF
