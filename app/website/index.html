@@ -1,0 +1,16 @@
+cat > app/website/index.html << 'EOF'
+<!DOCTYPE html>
+<html>
+<head><title>Jenkins K8s App</title>
+<style>
+body{margin:0;background:#0f0f23;display:flex;justify-content:center;align-items:center;height:100vh;}
+.box{background:#1a1a3e;border:2px solid #7c7cff;border-radius:16px;padding:40px;text-align:center;color:white;}
+h1{color:#7c7cff;}.ok{color:#2ecc71;font-weight:bold;}
+</style></head>
+<body><div class="box">
+<h1>🚀 Jenkins + K8s Lab</h1>
+<p>Built by: <span class="ok">Jenkins Agent</span></p>
+<p>Deployed to: <span class="ok">Kubernetes</span></p>
+<p>Infra managed by: <span class="ok">GitHub</span></p>
+</div></body></html>
+EOF
